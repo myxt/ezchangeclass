@@ -167,17 +167,17 @@ if ( !$class_array || !$mapping )
 }
 
 if (!$subTree) $subTree = 1;
-
+echo $subTree;
 //start feching objects of class: $class_array[0]
 $limit = 200;
 $line = 0;
 $debug = array();
 
-$nodeCount = eZContentObjectTreeNode::subTreeCount( array( 'ClassFilterType' => 'include',
+$nodeCount = eZContentObjectTreeNode::subTreeCountByNodeID( array( 'ClassFilterType' => 'include',
                                                            'ClassFilterArray' => array( $class_array[0] ),
                                                            'Limitation' => array(),
-                                                           'MainNodeOnly' => true
-                                                  ), $subTree);
+                                                           'MainNodeOnly' => true ),
+                                                    $subTree );
 
 if ( !$isQuiet )
 {
@@ -186,14 +186,14 @@ if ( !$isQuiet )
 
 do
 {
-    $nodeArray = eZContentObjectTreeNode::subTree( array( 'ClassFilterType' => 'include',
-                                                 'ClassFilterArray' => array( $class_array[0] ),
-                                                 'AsObject' => false,
-                                                 'Limitation' => array(),
-                                                 'Offset' => 0,
-                                                 'Limit' => $limit,
-                                                 'MainNodeOnly' => true 
-                                                 ), $subTree);
+    $nodeArray = eZContentObjectTreeNode::subTreeByNodeID( array( 'ClassFilterType' => 'include',
+                                                          'ClassFilterArray' => array( $class_array[0] ),
+                                                          'AsObject' => false,
+                                                          'Limitation' => array(),
+                                                          'Offset' => 0,
+                                                          'Limit' => $limit,
+                                                          'MainNodeOnly' => true ),
+                                                   $subTree );
 
     if ( !$nodeArray ) break;
     foreach ( $nodeArray as $node )
