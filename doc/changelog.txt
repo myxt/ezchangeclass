@@ -1,0 +1,44 @@
+Changelog for eZ ChangeClass extension
+*fixed +added -removed
+
+0.61 (ar)
+  * conversionFunctions::getSimpleConversionArray is using $this so can not be called statically
+  * lots of missing is_set / isset checks in map_attribute.php and map_attribute.tpl on arrays
+
+0.60 (ar)
+* fixed while bug in cli script
+* Fixed possible 'mem leak'
++ added ezstring / eztext -> ezxml converter (thanks Mauro Innocenti)
++ added ezstring to ezint / ezfloat converter (untested!)
+Known bug: Duplicated relations with object relation(s) attributes
+
+
+0.51 (ar)
+* fixed offset bug
+* fixed 3.8.x api bug
++ added sub-tree parameter
++ added logging capability
+
+0.50 (ar)
++ Added batch converting ability with wizard
+* some other small fixes
++ added lichens text and ezinfo.php
+
+0.31
+* included patch from Peter Putzer
+
+0.30
++ Added simple conversion - now it's possible to define conversion in changeclass.ini
+[SimpleConversion]
+SupportedConversion[]=eztext;ezstring
+Above settings will enable mapping between different datatypes when there is no need to make any changes on attribute content 
+
+0.23 (ar)
++ Added possibility to have custom datatype converters, one example is included where relationslist is converted to a 'relationlistbloc' witch is a relationlist with dates on each relation.
+* Fixed some bugs / warnings
+
+0.19
+* Possibility to change existing object to different content class - button "Modify object"
+
+0.1
++ Initial release

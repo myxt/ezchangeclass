@@ -1,0 +1,11 @@
+ezchangeclass
+
+To do:
+
+- add ezuser datatype support
+- multiverions support
+	- allow to select source version if more languages
+- removing old verion
+- support for reverce related objects
+- check permisions!!
+
