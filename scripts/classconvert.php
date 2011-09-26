@@ -31,10 +31,7 @@ if( !file_exists( 'extension/ezchangeclass/scripts' ) || !is_dir( 'extension/ezc
     exit;
 }
 
-include_once( 'lib/ezutils/classes/ezcli.php' );
-include_once( 'kernel/classes/ezscript.php' );
-include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-include_once( 'extension/ezchangeclass/classes/functions.php' );
+include_once( 'autoload.php' );
 
 $cli =& eZCLI::instance();
 
@@ -175,11 +172,13 @@ if (!$subTree) $subTree = 1;
 $limit = 200;
 $line = 0;
 $debug = array();
+
 $nodeCount = eZContentObjectTreeNode::subTreeCount( array( 'ClassFilterType' => 'include',
-                                                 'ClassFilterArray' => array( $class_array[0] ),
-                                                 'Limitation' => array(),
-                                                 'MainNodeOnly' => true
-                                                 ), 1);
+                                                           'ClassFilterArray' => array( $class_array[0] ),
+                                                           'Limitation' => array(),
+                                                           'MainNodeOnly' => true
+                                                  ), $subTree);
+
 if ( !$isQuiet )
 {
     $cli->notice( 'Number of objects found: ' .$nodeCount );
@@ -195,6 +194,7 @@ do
                                                  'Limit' => $limit,
                                                  'MainNodeOnly' => true 
                                                  ), $subTree);
+
     if ( !$nodeArray ) break;
     foreach ( $nodeArray as $node )
     {
