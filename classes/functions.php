@@ -301,7 +301,7 @@ class conversionFunctions
                     }
                     else
                     {
-                        $clonedAttribute = $newAttribute->clone( $version, $objectVersions[0], $sourceObjectID );
+                        $clonedAttribute = $newAttribute->cloneContentObjectAttribute( $version, $objectVersions[0], $sourceObjectID );
                         $clonedAttribute->sync();
                     }
                     $iter++;
