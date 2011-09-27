@@ -28,7 +28,6 @@ php extension/ezchangeclass/scripts/classconvert.php -s example --param-file={$c
 </pre>
 Notice:<br />
 * Switch 'example' with the name of your siteaccess, preferably the one you are using right now!<br />&nbsp; ( so your sure it uses same db and cache folder )<br />
-* Please make sure that the 'php' command is actually the php 4 cli (command line interface), and not php5!<br />
 <br /><br />
 </div>
 
