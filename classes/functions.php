@@ -143,7 +143,7 @@ class conversionFunctions
     function convertObject( $sourceObjectID, $destinationClassID, $mapping )
     {
     
-       $sourceObject =& eZContentObject::fetch( $sourceObjectID );
+       $sourceObject = eZContentObject::fetch( $sourceObjectID );
         
         if ( !is_object( $sourceObject ) )
         {
@@ -154,11 +154,11 @@ class conversionFunctions
         // getting attributes from class
         if ( is_numeric( $destinationClassID ) )
         {
-            $destClass =& eZContentClass::fetch( $destinationClassID );
+            $destClass = eZContentClass::fetch( $destinationClassID );
         }
         else
         {
-            $destClass =& eZContentClass::fetchByIdentifier( $destinationClassID );
+            $destClass = eZContentClass::fetchByIdentifier( $destinationClassID );
             $destinationClassID = $destClass->ID;
         }
         
@@ -173,7 +173,7 @@ class conversionFunctions
         }
         
         $destClassDataMap = $destClass->dataMap();
-        $sourceClass =& eZContentClass::fetchByIdentifier( $sourceObject->attribute( 'class_identifier' ) );
+        $sourceClass = eZContentClass::fetchByIdentifier( $sourceObject->attribute( 'class_identifier' ) );
         $sourceClassDataMap = $sourceClass->dataMap();
         
         
@@ -211,7 +211,7 @@ class conversionFunctions
         }
         
         // changing existing attributes
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $usedAttributes = array();
         $missingAttributes = array();
@@ -240,7 +240,7 @@ class conversionFunctions
             foreach ( $objectVersions as $version )
             {
                 //echo "<br />dataMap: ".$sourceObjectDataMap[$value]->ID . "  ver: " . $version;
-                $sourceObjectAttr =& eZContentObjectAttribute::fetch( $sourceObjectDataMap[$value]->ID, $version );
+                $sourceObjectAttr = eZContentObjectAttribute::fetch( $sourceObjectDataMap[$value]->ID, $version );
                 if ( !is_object( $sourceObjectAttr ) )
                 {
                     // echo("skip version");
@@ -265,7 +265,7 @@ class conversionFunctions
                     // if obects has more than one version to update, it should be done with clone method
                     if ( $iter == 0  )
                     {
-                        $newAttribute =& eZContentObjectAttribute::create( $attributeID, $sourceObjectID, $version );
+                        $newAttribute = eZContentObjectAttribute::create( $attributeID, $sourceObjectID, $version );
                         $newAttribute->setContent( $sourceObjectDataMap[$sourceAttr]->content() );
                         conversionFunctions::customConverter( $newAttribute, $sourceObjectDataMap[$sourceAttr], $destClassDataMap[$destAttr] );
                         $newAttribute->store();
@@ -296,7 +296,7 @@ class conversionFunctions
                     // if obects has more than one version to update, it should be done with clone method
                     if ( $iter == 0  )
                     {
-                        $newAttribute =& eZContentObjectAttribute::create( $attributeID, $sourceObjectID, $version );
+                        $newAttribute = eZContentObjectAttribute::create( $attributeID, $sourceObjectID, $version );
                         $newAttribute->store();
                     }
                     else
@@ -316,7 +316,7 @@ class conversionFunctions
             {
                 $attributeID = $sourceObjectDataMap[$oldAttr]->ID;
                 //echo "<br />removing attributeID $attributeID, ver $objectVersions[0]";
-                $oldAttribute =& eZContentObjectAttribute::fetch( $attributeID, $objectVersions[0] );
+                $oldAttribute = eZContentObjectAttribute::fetch( $attributeID, $objectVersions[0] );
                 if ( is_object( $oldAttribute ) )
                 {
                     $oldAttribute->remove( $attributeID );
