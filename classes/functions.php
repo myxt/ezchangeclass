@@ -160,6 +160,7 @@ class conversionFunctions
         {
             $destClass = eZContentClass::fetchByIdentifier( $destinationClassID );
             $destinationClassID = $destClass->attribute( 'id' );
+
         }
         
         if (!$destClass)
