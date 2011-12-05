@@ -75,24 +75,24 @@ class conversionFunctions
     function customConverter( &$newObjectAttr, $sourceObjectAttr, $destObjectAttr )
     {
         // We need to look for custom translation scripts if the datatype differs
-        if ( $sourceObjectAttr->DataTypeString != $destObjectAttr->DataTypeString )
+        if ( $sourceObjectAttr->attribute( 'data_type_string' ) != $destObjectAttr->attribute( 'data_type_string' ) )
         {
             $ini = eZINI::instance( 'changeclass.ini' );
             $simpleConversion = $ini->variable( 'SimpleConversion', 'SupportedConversion' );
-            if ( in_array( $sourceObjectAttr->DataTypeString.';'.$destObjectAttr->DataTypeString, $simpleConversion ) )
+            if ( in_array( $sourceObjectAttr->attribute( 'data_type_string' ).';'.$destObjectAttr->attribute( 'data_type_string' ), $simpleConversion ) )
             {
                 return true;
             }
         
         
             $die = true;
-            if ( $ini->hasGroup( $sourceObjectAttr->DataTypeString ) )
+            if ( $ini->hasGroup( $sourceObjectAttr->attribute( 'data_type_string' ) ) )
             {
-                $possible_dest = $ini->variable( $sourceObjectAttr->DataTypeString, 'SupportedDestination' );
+                $possible_dest = $ini->variable( $sourceObjectAttr->attribute( 'data_type_string' ), 'SupportedDestination' );
                 if ( !is_array( $possible_dest ) ) $possible_dest = array( $possible_dest );
                 foreach( $possible_dest as $p_dest )
                 {
-                    if ( $p_dest == $destObjectAttr->DataTypeString )
+                    if ( $p_dest == $destObjectAttr->attribute( 'data_type_string' ) )
                     {
                         $die = false;
                         break;
@@ -102,18 +102,18 @@ class conversionFunctions
                 
             if ( $die )
             {
-                echo 'ERROR: Could not find any custom convertions from ' . $sourceObjectAttr->DataTypeString . ' to ' . $destObjectAttr->DataTypeString . "\n<br />\n";
+                echo 'ERROR: Could not find any custom convertions from ' . $sourceObjectAttr->attribute( 'data_type_string' ) . ' to ' . $destObjectAttr->attribute( 'data_type_string' ) . "\n<br />\n";
                 die();
             }    
             else
             {
-                $script = $ini->variable( $sourceObjectAttr->DataTypeString, 'Script' );
+                $script = $ini->variable( $sourceObjectAttr->attribute( 'data_type_string' ), 'Script' );
                 if ( file_exists( $script ) )
                 {
                     include_once( $script );
-                    $script = $ini->variable( $sourceObjectAttr->DataTypeString, 'Class' );
-                    $class = trim( $ini->variable( $sourceObjectAttr->DataTypeString, 'Class' ) );
-                    $function = $ini->variable( $sourceObjectAttr->DataTypeString, 'Function' );
+                    $script = $ini->variable( $sourceObjectAttr->attribute( 'data_type_string' ), 'Class' );
+                    $class = trim( $ini->variable( $sourceObjectAttr->attribute( 'data_type_string' ), 'Class' ) );
+                    $function = $ini->variable( $sourceObjectAttr->attribute( 'data_type_string' ), 'Function' );
     
                     if ( $class != '' )
                         $callback = array( $class, $function );
@@ -126,7 +126,7 @@ class conversionFunctions
                         
                         if ( !$ret )
                         {
-                            echo "ERROR: custom converter '" . $function . "' returned false on id: $newObjectAttr->ContentClassAttributeID \n<br />\n";
+                            echo "ERROR: custom converter '" . $function . "' returned false on id: $newObjectAttr->attribute( 'contentclassattribute_id' ) \n<br />\n";
                             die();
                         }
     
@@ -134,7 +134,7 @@ class conversionFunctions
                 }
                 else
                 {
-                    echo 'ERROR: Could not find script for custom converter of datatype ' . $sourceObjectAttr->DataTypeString . "\n<br />\n";
+                    echo 'ERROR: Could not find script for custom converter of datatype ' . $sourceObjectAttr->attribute( 'data_type_string' ) . "\n<br />\n";
                     die();
                 }
             }
@@ -143,7 +143,7 @@ class conversionFunctions
     function convertObject( $sourceObjectID, $destinationClassID, $mapping )
     {
     
-       $sourceObject =& eZContentObject::fetch( $sourceObjectID );
+       $sourceObject = eZContentObject::fetch( $sourceObjectID );
         
         if ( !is_object( $sourceObject ) )
         {
@@ -154,12 +154,12 @@ class conversionFunctions
         // getting attributes from class
         if ( is_numeric( $destinationClassID ) )
         {
-            $destClass =& eZContentClass::fetch( $destinationClassID );
+            $destClass = eZContentClass::fetch( $destinationClassID );
         }
         else
         {
-            $destClass =& eZContentClass::fetchByIdentifier( $destinationClassID );
-            $destinationClassID = $destClass->ID;
+            $destClass = eZContentClass::fetchByIdentifier( $destinationClassID );
+            $destinationClassID = $destClass->attribute( 'id' );
         }
         
         if (!$destClass)
@@ -173,7 +173,7 @@ class conversionFunctions
         }
         
         $destClassDataMap = $destClass->dataMap();
-        $sourceClass =& eZContentClass::fetchByIdentifier( $sourceObject->attribute( 'class_identifier' ) );
+        $sourceClass = eZContentClass::fetchByIdentifier( $sourceObject->attribute( 'class_identifier' ) );
         $sourceClassDataMap = $sourceClass->dataMap();
         
         
@@ -207,11 +207,11 @@ class conversionFunctions
         $versions = $sourceObject->attribute( 'versions' );
         foreach ( ( $versions ) as $version )
         {
-            $objectVersions[] = $version->Version;
+            $objectVersions[] = $version->attribute( 'version' );
         }
         
         // changing existing attributes
-        $db =& eZDB::instance();
+        $db = eZDB::instance();
         $db->begin();
         $usedAttributes = array();
         $missingAttributes = array();
@@ -240,13 +240,13 @@ class conversionFunctions
             foreach ( $objectVersions as $version )
             {
                 //echo "<br />dataMap: ".$sourceObjectDataMap[$value]->ID . "  ver: " . $version;
-                $sourceObjectAttr =& eZContentObjectAttribute::fetch( $sourceObjectDataMap[$value]->ID, $version );
+                $sourceObjectAttr = eZContentObjectAttribute::fetch( $sourceObjectDataMap[$value]->attribute( 'id' ), $version );
                 if ( !is_object( $sourceObjectAttr ) )
                 {
                     // echo("skip version");
                     continue;
                 }
-                $sourceObjectAttr->setAttribute( 'contentclassattribute_id', $destClassDataMap[$key]->ID );
+                $sourceObjectAttr->setAttribute( 'contentclassattribute_id', $destClassDataMap[$key]->attribute( 'id' ) );
                 conversionFunctions::customConverter( $sourceObjectAttr, $sourceObjectDataMap[$value], $destClassDataMap[$key] );
                 $sourceObjectAttr->store();
             }
@@ -257,7 +257,7 @@ class conversionFunctions
         {
             foreach ( $duplicatedAttribures as $destAttr => $sourceAttr )
             {
-                $attributeID = $destClassDataMap[$destAttr]->ID;
+                $attributeID = $destClassDataMap[$destAttr]->attribute( 'id' );
                 $iter = 0;
                 foreach ( $objectVersions as $version )
                 {
@@ -265,7 +265,7 @@ class conversionFunctions
                     // if obects has more than one version to update, it should be done with clone method
                     if ( $iter == 0  )
                     {
-                        $newAttribute =& eZContentObjectAttribute::create( $attributeID, $sourceObjectID, $version );
+                        $newAttribute = eZContentObjectAttribute::create( $attributeID, $sourceObjectID, $version );
                         $newAttribute->setContent( $sourceObjectDataMap[$sourceAttr]->content() );
                         conversionFunctions::customConverter( $newAttribute, $sourceObjectDataMap[$sourceAttr], $destClassDataMap[$destAttr] );
                         $newAttribute->store();
@@ -289,14 +289,14 @@ class conversionFunctions
         {
             foreach ( $missingAttributes as $newAttr )
             {
-                $attributeID = $destClassDataMap[$newAttr]->ID;
+                $attributeID = $destClassDataMap[$newAttr]->attribute( 'id' );
                 $iter = 0;
                 foreach ( $objectVersions as $version )
                 {
                     // if obects has more than one version to update, it should be done with clone method
                     if ( $iter == 0  )
                     {
-                        $newAttribute =& eZContentObjectAttribute::create( $attributeID, $sourceObjectID, $version );
+                        $newAttribute = eZContentObjectAttribute::create( $attributeID, $sourceObjectID, $version );
                         $newAttribute->store();
                     }
                     else
@@ -314,12 +314,11 @@ class conversionFunctions
         {
             if ( !in_array( $oldAttr, $usedAttributes ) )
             {
-                $attributeID = $sourceObjectDataMap[$oldAttr]->ID;
-                //echo "<br />removing attributeID $attributeID, ver $objectVersions[0]";
-                $oldAttribute =& eZContentObjectAttribute::fetch( $attributeID, $objectVersions[0] );
+                $attributeID = $sourceObjectDataMap[$oldAttr]->attribute( 'id' );
+                $oldAttribute = eZContentObjectAttribute::fetch( $attributeID, $objectVersions[0] );
                 if ( is_object( $oldAttribute ) )
                 {
-                    $oldAttribute->remove( $attributeID );
+                    $oldAttribute->removeThis( $attributeID );
                 }
             }
         }
