@@ -1,0 +1,22 @@
+eZ Publish 4.x compatible fork of ezchangeclass on projects.ez.no. Original work by Bartek Modzelewski.
+http://projects.ez.no/object_content_class_change
+
+This extension allows to change a content object's content class. Useful when
+refactoring an existing installation, i.e. towards organizational entities.
+
+Usage:
+Click on the context menu entry of a given node in the admin tree.
+
+Features:
+- Two ways to change a content object's class:
+- A. Change an existing object's content class without creating a new object (thus
+  keeping the existing node). All needed new attributes will be
+  created automatically, and all data in it will be copied.
+- B. Copy an existing object to another class (thus creating a new object and node)
+- Mapping between attributes of classes
+- Possibilty to map between different datatypes if the same db table
+  attribute is used (for ex. data_text -> data_text) - simple
+  conversion can be set in changeclass.ini file
+- Batch conversion of existing objects, select 'Generate console
+  parameters' on step 2 to get all the info.
+- Handles archived and other object versions as well.
