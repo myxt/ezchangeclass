@@ -33,9 +33,9 @@ if( !file_exists( 'extension/ezchangeclass/scripts' ) || !is_dir( 'extension/ezc
 
 include_once( 'autoload.php' );
 
-$cli =& eZCLI::instance();
+$cli = eZCLI::instance();
 
-$script =& eZScript::instance( array( 'description' => ( "\nThis script performs batch conversion of objects of a specific class!\n" .
+$script = eZScript::instance( array( 'description' => ( "\nThis script performs batch conversion of objects of a specific class!\n" .
                                                          "\nBefore running this you should use the gui part of this extension, witch will create a conversion file if you select:\n 'Generate parameters for converting all instances of this class'.\n"  ),
                                       'use-session' => false,
                                       'use-modules' => false,
@@ -88,12 +88,12 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
         $params['database'] = $dbName;
     }
 
-    $db =& eZDB::instance( $dbImpl, $params, true );
+    $db = eZDB::instance( $dbImpl, $params, true );
     eZDB::setInstance( $db );
 }
 else
 {
-    $db =& eZDB::instance();
+    $db = eZDB::instance();
 }
 
 if ( !$db->isConnected() )
