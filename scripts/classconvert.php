@@ -167,9 +167,10 @@ if ( !$class_array || !$mapping )
 }
 
 if (!$subTree) $subTree = 1;
-echo $subTree;
+
 //start feching objects of class: $class_array[0]
-$limit = 200;
+$offset = 0;
+$limit = 100;
 $line = 0;
 $debug = array();
 
@@ -187,14 +188,13 @@ if ( !$isQuiet )
 do
 {
     $nodeArray = eZContentObjectTreeNode::subTreeByNodeID( array( 'ClassFilterType' => 'include',
-                                                          'ClassFilterArray' => array( $class_array[0] ),
-                                                          'AsObject' => false,
-                                                          'Limitation' => array(),
-                                                          'Offset' => 0,
-                                                          'Limit' => $limit,
-                                                          'MainNodeOnly' => true ),
-                                                   $subTree );
-
+                                                                  'ClassFilterArray' => array( $class_array[0] ),
+                                                                  'AsObject' => false,
+                                                                  'Limitation' => array(),
+                                                                  'Offset' => $offset,
+                                                                  'Limit' => $limit,
+                                                                  'MainNodeOnly' => true ),
+                                                           $subTree );
     if ( !$nodeArray ) break;
     foreach ( $nodeArray as $node )
     {
@@ -216,6 +216,7 @@ do
     {
         $cli->notice( $line . ' objects converted, ' . ($nodeCount - $line) . ' left.' );
     }
+    $offset += count( $nodeArray );
 
 } while ( $nodeArray );
 
