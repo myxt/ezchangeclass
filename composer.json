@@ -1,0 +1,24 @@
+{
+    "name": "informaticatrentina/ezchangeclass",
+    "version": "1.0",
+    "description": "Informatica Trentina SpA - ezchangeclass",
+    "type": "ezpublish-legacy-extension",
+    "authors": [
+        {
+            "name": "Informatica Trentina SpA",
+            "homepage": "http://www.infotn.it"
+        },
+        {
+            "name": "Myxt Web Solutions",
+            "homepage": "http://www.myxt.nl"
+        }
+    ],
+    "license": "GPL-2.0",
+    "minimum-stability": "stable",
+    "require": {
+		"ezsystems/ezpublish-legacy-installer": "*"
+    },
+    "extra": {
+        "ezpublish-legacy-extension-name": "ezchangeclass"
+    }
+}
