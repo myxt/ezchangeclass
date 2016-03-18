@@ -1,13 +1,9 @@
 {
-    "name": "informaticatrentina/ezchangeclass",
+    "name": "myxt/ezchangeclass",
     "version": "1.0",
-    "description": "Informatica Trentina SpA - ezchangeclass",
+    "description": "Myxt Web Solutions - ezchangeclass",
     "type": "ezpublish-legacy-extension",
     "authors": [
-        {
-            "name": "Informatica Trentina SpA",
-            "homepage": "http://www.infotn.it"
-        },
         {
             "name": "Myxt Web Solutions",
             "homepage": "http://www.myxt.nl"
