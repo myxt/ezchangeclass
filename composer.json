@@ -1,0 +1,20 @@
+{
+    "name": "myxt/ezchangeclass",
+    "version": "1.0",
+    "description": "Myxt Web Solutions - ezchangeclass",
+    "type": "ezpublish-legacy-extension",
+    "authors": [
+        {
+            "name": "Myxt Web Solutions",
+            "homepage": "http://www.myxt.nl"
+        }
+    ],
+    "license": "GPL-2.0",
+    "minimum-stability": "stable",
+    "require": {
+		"ezsystems/ezpublish-legacy-installer": "*"
+    },
+    "extra": {
+        "ezpublish-legacy-extension-name": "ezchangeclass"
+    }
+}
