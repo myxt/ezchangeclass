@@ -198,18 +198,18 @@ do
     if ( !$nodeArray ) break;
     foreach ( $nodeArray as $node )
     {
-        $temp = conversionFunctions::convertObject( $node['contentobject_id'], $class_array[1], $mapping );
+        $temp = conversionFunctions::convertObject( $node['id'], $class_array[1], $mapping );
 
         if ( !$temp )
         {
-            $temp_string = 'Error: ObjectId ' . $node['contentobject_id'] . ' with class ' . $class_array[1] . ' conversion returned false!';
+            $temp_string = 'Error: ObjectId ' . $node['id'] . ' with class ' . $class_array[1] . ' conversion returned false!';
             $cli->notice( $temp_string);
             $debug[] = $temp_string . "\n";
         }
         else
         {
             $line++;
-            $debug[] = $node['name'] . ',' . $node['node_id'] . ',' . $node['contentobject_id'] . "\n";
+            $debug[] = $node['name'] . ',' . $node['node_id'] . ',' . $node['id'] . "\n";
         }
     }
     if ( !$isQuiet && $nodeArray )
